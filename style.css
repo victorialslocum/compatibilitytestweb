@@ -18,6 +18,10 @@ body {
 .container {
   width: 600px;
   max-width: 80%;
+}
+
+.textcontainer {
+  width: 600px;
   background-color: #85c9e8;
   padding: 10px;
   border-radius: 10px;
@@ -42,5 +46,5 @@ body {
 }
 
 .btn:hover {
-    background-color: rgb(211, 211, 211);
+  background-color: rgb(211, 211, 211);
 }
