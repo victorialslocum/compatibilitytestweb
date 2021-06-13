@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="style.css" rel="stylesheet" />
-    <script defer src="game.js"></script>
+    <script defer src="compatibilityTest.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -14,17 +14,16 @@
         <div id="text1">Text1</div>
         <div id="text2">Text2</div>
       </div>
+      <div class="inputdiv">
+        <form method="POST" id="input-element" class="inputform">
+          <input type="text" id="input-text" class="input"/>
+        </form>
+      </div>
       <div id="option-buttons" class="btn-grid">
         <button class="btn">Option 1</button>
         <button class="btn">Option 2</button>
         <button class="btn">Option 3</button>
         <button class="btn">Option 4</button>
-      </div>
-      <div id="input-element" class="input">
-        <form>
-          <input type="text" id="input-text" name="fname"><br><br>
-          <input type="submit" value="Submit">
-        </form>
       </div>
     </div>
   </body>
