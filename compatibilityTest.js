@@ -2,18 +2,24 @@ var text1 = document.getElementById("text1");
 var text2 = document.getElementById("text2");
 var input = document.getElementById("input-element");
 var optionButtonsElement = document.getElementById("option-buttons");
-var inputText = document.getElementById("input-text");
+var submit = document.getElementById("submit");
+var inputText = "THIS IS STUPID";
 var answer1 = "test";
 var answer2 = "test2";
+var x = 0;
 
 function startGame() {
   showTextNode(1);
 }
 
 function showTextNode(textNodeIndex) {
+  nextTextNodeIndex = textNodeIndex + 1;
   const textNode = textNodes.find((textNode) => textNode.id === textNodeIndex);
   text1.innerText = textNode.text1;
   text2.innerText = textNode.text2;
+  console.log("Running showTextNode on index:", textNodeIndex);
+  console.log("Show text node content: ", textNode);
+
   while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild);
   }
@@ -24,19 +30,41 @@ function showTextNode(textNodeIndex) {
 
   textNode.options.forEach((option) => {
     if (showOption(option)) {
-      const button = document.createElement("button");
-      button.innerText = option.text;
-      button.classList.add("btn");
-      button.addEventListener("click", () => selectOption(option));
-      optionButtonsElement.appendChild(button);
       if (option.inputform) {
-        const inputform = document.createElement("input");
-        inputform.setAttribute("type", "text");
-        inputform.classList.add("input");
-        input.appendChild(inputform);
+        const inputForm = document.createElement("input");
+        inputForm.setAttribute("type", "text");
+        inputForm.classList.add("input");
+        inputForm.setAttribute("id", "input-text");
+        const submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.classList.add("submit-button");
+        submitButton.addEventListener("click", () => {
+          updateNextTextNode(nextTextNodeIndex);
+          selectOption(option);
+        });
+        input.appendChild(inputForm);
+        input.appendChild(submitButton);
+      } else {
+        const button = document.createElement("button");
+        button.innerText = option.text;
+        button.classList.add("btn");
+        button.addEventListener("click", () => selectOption(option));
+        optionButtonsElement.appendChild(button);
       }
     }
   });
+}
+
+function score(change) {
+  x = x + change;
+}
+
+function updateNextTextNode(nextTextNodeIndex) {
+  const nextTextNode = textNodes.find(
+    (textNode) => textNode.id === nextTextNodeIndex
+  );
+  inputText = document.getElementById("input-text").value;
+  nextTextNode.text1 = choseFunction(inputText, nextTextNodeIndex);
 }
 
 function showOption(option) {
@@ -51,7 +79,7 @@ function selectOption(option) {
   showTextNode(nextTextNodeId);
 }
 
-function favNameQuestion(favName) {
+function question4(input) {
   if (favName == "Melinda") {
     return "Test1";
   } else if (favName == "Victoria") {
@@ -59,6 +87,22 @@ function favNameQuestion(favName) {
   } else {
     return "HIIII";
   }
+}
+
+function choseFunction(input, index) {
+  var arrayOfFunctions = [
+    question1,
+    question2,
+    question3,
+    question4,
+    question5,
+    question6,
+    question7,
+    question8,
+    question9,
+    question10,
+  ];
+  return arrayOfFunctions[index](input);
 }
 
 const textNodes = [
@@ -111,7 +155,7 @@ const textNodes = [
   },
   {
     id: 4,
-    text1: favNameQuestion("Victoria"),
+    text1: "function 4",
     text2: answer2,
     options: [
       {
@@ -123,7 +167,7 @@ const textNodes = [
   {
     id: 5,
     text1: "Enter your name",
-    text2: "please",
+    text2: inputText,
     options: [
       {
         inputform: true,
@@ -134,7 +178,7 @@ const textNodes = [
   },
   {
     id: 6,
-    text1: favNameQuestion(inputText),
+    text1: inputText,
     text2: "pleasework",
     options: [
       {
