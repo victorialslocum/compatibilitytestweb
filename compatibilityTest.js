@@ -8,7 +8,8 @@ var userName = "";
 var sexyName = "";
 var favColor = "";
 var toebees = "";
-var previousButtonText = ""
+var previousButtonText = "";
+var wormLength = 0;
 var x = 0;
 
 function startGame() {
@@ -30,7 +31,6 @@ function showTextNode(textNodeIndex) {
   }
 
   textNode.options.forEach((option) => {
-    
     if (showOption(option)) {
       if (option.inputform) {
         const inputForm = document.createElement("input");
@@ -48,12 +48,12 @@ function showTextNode(textNodeIndex) {
         input.appendChild(submitButton);
       } else {
         const scoreValue = option.scoreValue;
-        console.log(scoreValue)
+        console.log(scoreValue);
         const button = document.createElement("button");
         button.innerText = option.text;
         button.classList.add("btn");
         button.addEventListener("click", () => {
-          updatePreviousButtonText(option.text)
+          updatePreviousButtonText(option.text);
           updateNextTextNodeButton(nextTextNodeIndex);
           score(scoreValue);
           selectOption(option);
@@ -65,7 +65,7 @@ function showTextNode(textNodeIndex) {
 }
 
 function updatePreviousButtonText(buttonText) {
-  previousButtonText = buttonText
+  previousButtonText = buttonText;
 }
 
 function score(change) {
@@ -101,7 +101,7 @@ function selectOption(option) {
 }
 
 function question0(input) {
-  return ""
+  return "";
 }
 
 function question1(input) {
@@ -208,42 +208,67 @@ function question3(input) {
 function question4(input) {
   toebees = input.toLowerCase();
   if (toebees == "yes") {
-    score(5)
+    score(5);
     return "wow confident answer. I like a person with confidence.\nunfortunately scientist say no, but I like to think that they're wrong.\njust because its classified as a 'tarsal segment' doesn't mean it isn't a toe\nso good for you in bee-lieving in the power of bees with toes";
   } else if (toebees == "no") {
-    score(3)
+    score(3);
     return "well you're technically right according to scientists\nso congrats on being smart but not congrats in not bee-lieving in bees\nit's kind of discrimina-toe-ry";
   } else if (toebees == "idk") {
-    score(-3)
+    score(-3);
     return "don't know? Sounds a little unconfident. Be more educated next time";
   } else if (toebees == "why") {
-    score(-5)
+    score(-5);
     return "CAUSE I SAID SO";
   } else {
-    score(-10)
+    score(-10);
     return "you broke something :(";
   }
 }
 
 function question5(input) {
-  userName = input.toLowerCase();
-  if (userName == "victoria") {
-    return "what happens now";
-  } else if (userName == "Victoria") {
-    return "THIS WORKS";
+  wormLength = Number(input);
+  if (wormLength < 1) {
+    score(-5);
+    return (
+      "I definitely feel like this says a lot about you...\nand tbh its not a vibe\nsmall worm = lame worm\nso in other words, " +
+      userName +
+      " = lame"
+    );
+  } else if (1 <= wormLength <= 6) {
+    score(3);
+    return (
+      "OKOK I see you with your perfect " +
+      wormLength +
+      "in worm body!!\nits a vibe and i'm here for it"
+    );
+  } else if (6 < wormLength <= 12) {
+    score(-3);
+    return "well... I mean...\nyou're not long enough to be terrifying but not short enough to be nice\nso idk. just kinda. there ig";
+  } else if (12 <= wormLength) {
+    score(5);
+    return "OH ok well I see you want to either be great at your job...\nor a terror to humanity\nI can get behind both. good choice.";
   } else {
-    return "HIIII";
+    score(-10);
+    return "WHAT DID YOU DO :((((";
   }
 }
 
 function question6(input) {
-  userName = input.toLowerCase();
-  if (userName == "victoria") {
-    return "question 6";
-  } else if (userName == "Victoria") {
-    return "THIS WORKS";
+  if (input == "omg yes") {
+    score(7);
+    return "YES AGREED OMG";
+  } else if (input == "ew") {
+    score(-9);
+    return "ok maybe you're the one who's ew, not the puns";
+  } else if (input == "idk") {
+    score(-3);
+    return "there's a lot of things I don't know, but this is not one of them\npuns are obviously the best";
+  } else if (input == "why") {
+    score(-5);
+    return "...\nwhy are you questioning me";
   } else {
-    return "HIIII";
+    score(-10);
+    return "you broke something :(";
   }
 }
 
@@ -291,9 +316,14 @@ function question10(input) {
   }
 }
 
-function returnScore() {
-  console.log(x)
-  return x.toString()
+function returnScore(input) {
+  console.log("score: ", x)
+  return x;
+}
+
+function deleteScore(input) {
+  console.log("score: ", x)
+  x = x - x;
 }
 
 function choseFunction(input, index) {
@@ -312,6 +342,9 @@ function choseFunction(input, index) {
     question4,
     question0,
     question5,
+    question0,
+    question6,
+    question0,
     returnScore,
   ];
   return arrayOfFunctions[index](input);
@@ -337,9 +370,9 @@ const textNodes = [
   },
   {
     id: 2,
-    text1: "ok, here are the disclaimers...\n1. Victoria does not necessarily share the same views as Vicomputoria, and so judgements may not be representative of Victoria's viewpoints\n 2. This is terrible code, I know, and I'm sorry, but I'm learning. \n3. I am not responsible for any mental damages that occur as a result of weird questions, puns, or making fun of you. \n4. Everytime you break something, you get -10 points deducted. Proceed with caution\n",
-    text2:
-      "",
+    text1:
+      "ok, here are the disclaimers...\n1. Victoria does not necessarily share the same views as Vicomputoria, and so judgements may not be representative of Victoria's viewpoints\n 2. This is terrible code, I know, and I'm sorry, but I'm learning. \n3. I am not responsible for any mental damages that occur as a result of weird questions, puns, or making fun of you. \n4. Everytime you break something, you get -10 points deducted. Proceed with caution\n",
+    text2: "",
     options: [
       {
         text: "Continue",
@@ -350,8 +383,8 @@ const textNodes = [
   },
   {
     id: 3,
-    text1: "we'll start out with an easy question",
-    text2: "what is your name?",
+    text1: "we'll start out with an easy question\nwhat is your name?",
+    text2: "",
     options: [
       {
         inputform: true,
@@ -426,7 +459,7 @@ const textNodes = [
       {
         text: "please make it stop",
         scoreValue: -10,
-        nextText: 1,
+        nextText: 16,
       },
     ],
   },
@@ -438,7 +471,7 @@ const textNodes = [
       {
         text: "get me out of here",
         scoreValue: -10,
-        nextText: 1,
+        nextText: 16,
       },
       {
         text: "quitting is for losers",
@@ -449,8 +482,8 @@ const textNodes = [
   },
   {
     id: 10,
-    text1: "ok this may be the most important question you will ever hear",
-    text2: "do bees have toes?",
+    text1: "ok this may be the most important question you will ever hear.\ndo bees have toes?",
+    text2: "",
     options: [
       {
         text: "yes",
@@ -477,23 +510,18 @@ const textNodes = [
   {
     id: 11,
     text1: "",
-    text2: "hopefully you're not sick of weird questions...\nthe fun still goes on",
+    text2: "",
     options: [
       {
         text: "continue",
         scoreValue: 2,
         nextText: 12,
       },
-      {
-        text: "quit",
-        scoreValue: -5,
-        nextText: 12,
-      },
     ],
   },
   {
     id: 12,
-    text1: "If you were a worm, how long would you be (in inches)?",
+    text1: "if you were a worm, how long would you be (in inches)?",
     text2: "",
     options: [
       {
@@ -505,6 +533,57 @@ const textNodes = [
   },
   {
     id: 13,
+    text1: "",
+    text2: "",
+    options: [
+      {
+        text: "continue",
+        scoreValue: 0,
+        nextText: 14,
+      },
+    ],
+  },
+  {
+    id: 14,
+    text1: "final question...\nhow do you feel about puns?",
+    text2: "",
+    options: [
+      {
+        text: "omg yes",
+        scoreValue: 7,
+        nextText: 15,
+      },
+      {
+        text: "ew",
+        scoreValue: -7,
+        nextText: 15,
+      },
+      {
+        text: "idk",
+        scoreValue: -5,
+        nextText: 15,
+      },
+      {
+        text: "why",
+        scoreValue: -5,
+        nextText: 15,
+      },
+    ],
+  },
+  {
+    id: 15,
+    text1: "",
+    text2: "",
+    options: [
+      {
+        text: "continue",
+        scoreValue: 0,
+        nextText: 16,
+      },
+    ],
+  },
+  {
+    id: 16,
     text1: "now for the results... \nfinal score:",
     text2: "",
     options: [
