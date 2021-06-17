@@ -11,16 +11,24 @@ var toebees = "";
 var previousButtonText = "";
 var wormLength = 0;
 var x = 0;
+// var database = firebase.database();
+
+function writeUserData(userNumber, userName, score) {
+  database.ref('users/' + userNumber).set({
+    username: userName,
+    score: score,
+  });
+}
 
 function startGame() {
   showTextNode(1);
 }
 
 function showTextNode(textNodeIndex) {
-  const nextTextNodeIndex = textNodeIndex + 1;
   const textNode = textNodes.find((textNode) => textNode.id === textNodeIndex);
   text1.innerText = textNode.text1;
   text2.innerText = textNode.text2;
+  console.log("x = ", x);
 
   while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild);
@@ -31,6 +39,7 @@ function showTextNode(textNodeIndex) {
   }
 
   textNode.options.forEach((option) => {
+    var nextTextNodeIndex = option.nextText;
     if (showOption(option)) {
       if (option.inputform) {
         const inputForm = document.createElement("input");
@@ -127,7 +136,7 @@ function question1(input) {
       " x2?"
     );
   } else if (userName.length <= 3) {
-    score(5);
+    score(6);
     return "wow you must think you're so cool, having a short name...\nwell, I think you're cool too.";
   } else if (3 < userName.length < 8) {
     score(1);
@@ -147,7 +156,7 @@ function question1(input) {
 function question2(input) {
   sexyName = input.toLowerCase();
   if (sexyName == "victoria") {
-    score(7);
+    score(10);
     return "correct answer. good choice.";
   } else if (sexyName == userName) {
     score(-7);
@@ -208,16 +217,12 @@ function question3(input) {
 function question4(input) {
   toebees = input.toLowerCase();
   if (toebees == "yes") {
-    score(5);
     return "wow confident answer. I like a person with confidence.\nunfortunately scientist say no, but I like to think that they're wrong.\njust because its classified as a 'tarsal segment' doesn't mean it isn't a toe\nso good for you in bee-lieving in the power of bees with toes";
   } else if (toebees == "no") {
-    score(3);
     return "well you're technically right according to scientists\nso congrats on being smart but not congrats in not bee-lieving in bees\nit's kind of discrimina-toe-ry";
   } else if (toebees == "idk") {
-    score(-3);
     return "don't know? Sounds a little unconfident. Be more educated next time";
   } else if (toebees == "why") {
-    score(-5);
     return "CAUSE I SAID SO";
   } else {
     score(-10);
@@ -226,7 +231,7 @@ function question4(input) {
 }
 
 function question5(input) {
-  wormLength = Number(input);
+  wormLength = parseFloat(input);
   if (wormLength < 1) {
     score(-5);
     return (
@@ -234,14 +239,14 @@ function question5(input) {
       userName +
       " = lame"
     );
-  } else if (1 <= wormLength <= 6) {
+  } else if (1 <= wormLength && wormLength <= 6) {
     score(3);
     return (
       "OKOK I see you with your perfect " +
       wormLength +
       "in worm body!!\nits a vibe and i'm here for it"
     );
-  } else if (6 < wormLength <= 12) {
+  } else if (6 < wormLength && wormLength < 12) {
     score(-3);
     return "well... I mean...\nyou're not long enough to be terrifying but not short enough to be nice\nso idk. just kinda. there ig";
   } else if (12 <= wormLength) {
@@ -255,16 +260,12 @@ function question5(input) {
 
 function question6(input) {
   if (input == "omg yes") {
-    score(7);
     return "YES AGREED OMG";
   } else if (input == "ew") {
-    score(-9);
     return "ok maybe you're the one who's ew, not the puns";
   } else if (input == "idk") {
-    score(-3);
     return "there's a lot of things I don't know, but this is not one of them\npuns are obviously the best";
   } else if (input == "why") {
-    score(-5);
     return "...\nwhy are you questioning me";
   } else {
     score(-10);
@@ -272,64 +273,37 @@ function question6(input) {
   }
 }
 
-function question7(input) {
-  userName = input.toLowerCase();
-  if (userName == "victoria") {
-    return "question 7";
-  } else if (userName == "Victoria") {
-    return "THIS WORKS";
-  } else {
-    return "HIIII";
-  }
-}
-
-function question8(input) {
-  userName = input.toLowerCase();
-  if (userName == "victoria") {
-    return "we have the same name :( copy cat";
-  } else if (userName == "Victoria") {
-    return "THIS WORKS";
-  } else {
-    return "HIIII";
-  }
-}
-
-function question9(input) {
-  userName = input.toLowerCase();
-  if (userName == "victoria") {
-    return "we have the same name :( copy cat";
-  } else if (userName == "Victoria") {
-    return "THIS WORKS";
-  } else {
-    return "HIIII";
-  }
-}
-
-function question10(input) {
-  userName = input.toLowerCase();
-  if (userName == "victoria") {
-    return "we have the same name :( copy cat";
-  } else if (userName == "Victoria") {
-    return "THIS WORKS";
-  } else {
-    return "HIIII";
-  }
-}
-
 function returnScore(input) {
-  console.log("score: ", x)
-  return x;
+  var textScore = "";
+  if (x < 1) {
+    textScore = "\nyou completely failed. yea. so um its not gonna work out.";
+  } else if (x >= 1 && x < 10) {
+    textScore =
+      "\nwell at least you didn't get a negative number... but... yikes...";
+  } else if (x >= 10 && x < 30) {
+    textScore = "\nnot fantastic. below average.";
+  } else if (x >= 30 && x < 50) {
+    textScore = "\nokokokok you have some potential";
+  } else if (x == 50) {
+    textScore =
+      "\nidk whether to be terrified of the fact you got a perfect score...\nor if I should just propose now";
+  } else {
+    x = 0;
+    textScore = "\nyou broke something so score is actually 0";
+  }
+  return x + "/50" + textScore;
 }
 
 function deleteScore(input) {
-  console.log("score: ", x)
-  x = x - x;
+  console.log("score: ", x);
+  x = 0;
+  return "I'm your host, Vicomputoria, programmed into this terrible code";
 }
 
 function choseFunction(input, index) {
   const arrayOfFunctions = [
-    question0,
-    question0,
+    deleteScore,
+    deleteScore,
     question0,
     question0,
     question1,
@@ -344,7 +318,6 @@ function choseFunction(input, index) {
     question5,
     question0,
     question6,
-    question0,
     returnScore,
   ];
   return arrayOfFunctions[index](input);
@@ -482,17 +455,18 @@ const textNodes = [
   },
   {
     id: 10,
-    text1: "ok this may be the most important question you will ever hear.\ndo bees have toes?",
+    text1:
+      "ok this may be the most important question you will ever hear.\ndo bees have toes?",
     text2: "",
     options: [
       {
         text: "yes",
-        scoreValue: 5,
+        scoreValue: 7,
         nextText: 11,
       },
       {
         text: "no",
-        scoreValue: 3,
+        scoreValue: 5,
         nextText: 11,
       },
       {
@@ -514,7 +488,7 @@ const textNodes = [
     options: [
       {
         text: "continue",
-        scoreValue: 2,
+        scoreValue: 0,
         nextText: 12,
       },
     ],
@@ -550,7 +524,7 @@ const textNodes = [
     options: [
       {
         text: "omg yes",
-        scoreValue: 7,
+        scoreValue: 10,
         nextText: 15,
       },
       {

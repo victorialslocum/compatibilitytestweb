@@ -24,13 +24,20 @@ body {
 
 .textcontainer {
   width: 600px;
-  background-color: #85c9e8;
+  background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 3px 3px 3px 3px rgb(211, 211, 211);
-  font-size: larger;
+  font-size: 20px;
   line-height: 30px;
   text-align: center;
+  font-weight: 80px;
+}
+
+.text::selection {
+  background-color: #85c9e8;
+  padding: 30px;
+  color: white;
 }
 
 .btn-grid {
@@ -46,13 +53,17 @@ body {
   padding: 5px 10px;
   height: 70px;
   font-size: 20px;
-  color: black;
+  color: white;
   font-weight: bold;
   width: 50%;
+  background-color: #85c9e8;
+  box-shadow: 2px 2px 2px 2px rgb(211, 211, 211);
 }
 
 .btn:hover {
-  background-color: rgb(211, 211, 211);
+  background-color: white;
+  color: #85c9e8;
+  cursor: pointer;
 }
 
 .input {
@@ -63,6 +74,25 @@ body {
   border: 2px solid #85c9e8;
   box-sizing: border-box;
   display: inline-block;
+  font-size: 20px;
+}
+.input::selection {
+  background-color: #85c9e8;
+  padding: 30px;
+  color: white;
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover, 
+.input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 2px solid #85c9e8;
+  box-shadow: 0 0 0px 1000px #fff inset;
 }
 
 .inputform {
@@ -78,11 +108,18 @@ body {
   text-align: center;
   border-radius: 5px;
   border: none;
-  margin-top: 20px;
   padding: 5px 10px;
   height: 70px;
   font-size: 20px;
-  color: black;
+  color: white;
   font-weight: bold;
   width: 50%;
+  background-color: #85c9e8;
+  margin-top: 20px;
+  box-shadow: 2px 2px 2px 2px rgb(211, 211, 211);
+}
+.submit-button:hover {
+  background-color: white;
+  color: #85c9e8;
+  cursor: pointer;
 }

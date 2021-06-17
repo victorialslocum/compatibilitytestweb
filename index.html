@@ -11,13 +11,18 @@
   <body>
     <div class="container">
       <div class="textcontainer">
-        <div id="text1">Text1</div>
-        <div id="text2">Text2</div>
+        <div class="text" id="text1">Text1</div>
+        <div class="text" id="text2">Text2</div>
       </div>
       <div class="inputdiv">
         <form method="GET" id="input-element" class="inputform">
-          <input type="text" id="input-text" class="input"/>
-          <input type="submit" id="submit" class="submit-button" value="Submit"/>
+          <input type="text" id="input-text" class="input" />
+          <input
+            type="submit"
+            id="submit"
+            class="submit-button"
+            value="Submit"
+          />
         </form>
       </div>
       <div id="option-buttons" class="btn-grid">
@@ -27,5 +32,28 @@
         <button class="btn">Option 4</button>
       </div>
     </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-analytics.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      var firebaseConfig = {
+        apiKey: "AIzaSyDWI2uQ6cZILtZxOHHCoef5bpnLMgy-n_c",
+        authDomain: "compatibility-test-2cec2.firebaseapp.com",
+        projectId: "compatibility-test-2cec2",
+        storageBucket: "compatibility-test-2cec2.appspot.com",
+        messagingSenderId: "1053600569593",
+        appId: "1:1053600569593:web:7cecd9eefb904cf2d4aa28",
+        measurementId: "G-GQJNZJPK03",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
   </body>
 </html>
