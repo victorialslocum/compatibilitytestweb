@@ -14,6 +14,7 @@ var toebees = "";
 var previousButtonText = "";
 var wormLength = 0;
 var x = 0;
+var userDict = {};
 
 var firebaseConfig = {
   apiKey: "AIzaSyDWI2uQ6cZILtZxOHHCoef5bpnLMgy-n_c",
@@ -57,21 +58,41 @@ function startGame() {
   showTextNode(1);
 }
 
+// write to dictinary and then sort that and pull values from there
 function updateScores() {
   while (scoreboard.firstChild) {
     scoreboard.removeChild(scoreboard.firstChild);
   }
+
   dbRefObject.on("value", (snap) => {
     snap.forEach((user) => {
-      const textWrapper = document.createElement("tr");
+      userDict[user.val().username] = user.val().score;
+    });
+  });
+
+  var items = Object.keys(userDict).map(function (key) {
+    return [key, userDict[key]];
+  });
+
+  // Sort the array based on the second element
+  items.sort(function (first, second) {
+    return second[1] - first[1];
+  });
+
+  // Create a new array with only the first 5 items
+  console.log("userscores", items);
+  console.log("userdict: ", userDict);
+  items.slice(0,5).forEach((value, key) => {
+    console.log("value: ", value, " key: ", key)
+    const textWrapper = document.createElement("tr");
+    
+    scoreboard.appendChild(textWrapper);
+
+    value.forEach((value) => {
       const userNameText = document.createElement("th");
-      const scoreText = document.createElement("th");
-      userNameText.innerText = user.val().username;
-      scoreText.innerText = user.val().score;
+      userNameText.innerText = value;
 
       textWrapper.appendChild(userNameText);
-      textWrapper.appendChild(scoreText);
-      scoreboard.appendChild(textWrapper);
     });
   });
 }
@@ -212,7 +233,7 @@ function question1(input) {
   } else if (userName.length <= 3) {
     score(6);
     return "wow you must think you're so cool, having a short name...\nwell, I think you're cool too.";
-  } else if (3 < userName.length < 8) {
+  } else if (3 < userName.length && userName.length < 8) {
     score(1);
     return "hm. average number of letters. noted.";
   } else if (userName.length == 8) {
