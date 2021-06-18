@@ -4,6 +4,8 @@ var input = document.getElementById("input-element");
 var optionButtonsElement = document.getElementById("option-buttons");
 var submit = document.getElementById("submit");
 var scoreboard = document.getElementById("scoreboard");
+var scoreboardDiv = document.getElementById("scoreboard-div");
+var textContainer = document.getElementById("textcontainer");
 var inputText = "";
 var userName = "";
 var sexyName = "";
@@ -61,13 +63,15 @@ function updateScores() {
   }
   dbRefObject.on("value", (snap) => {
     snap.forEach((user) => {
+      const textWrapper = document.createElement("tr");
       const userNameText = document.createElement("th");
       const scoreText = document.createElement("th");
       userNameText.innerText = user.val().username;
       scoreText.innerText = user.val().score;
 
-      scoreboard.appendChild(userNameText);
-      scoreboard.appendChild(scoreText);
+      textWrapper.appendChild(userNameText);
+      textWrapper.appendChild(scoreText);
+      scoreboard.appendChild(textWrapper);
     });
   });
 }
@@ -84,6 +88,10 @@ function showTextNode(textNodeIndex) {
 
   while (input.firstChild) {
     input.removeChild(input.firstChild);
+  }
+
+  while (scoreboardDiv.firstChild) {
+    scoreboardDiv.removeChild(scoreboardDiv.firstChild);
   }
 
   textNode.options.forEach((option) => {
@@ -103,6 +111,31 @@ function showTextNode(textNodeIndex) {
         });
         input.appendChild(inputForm);
         input.appendChild(submitButton);
+        textContainer.style.display = "block";
+      } else if (option.scoreboard) {
+        const scoreValue = option.scoreValue;
+        const button = document.createElement("button");
+        button.innerText = option.text;
+        button.classList.add("btn");
+        button.addEventListener("click", () => {
+          updatePreviousButtonText(option.text);
+          updateNextTextNodeButton(nextTextNodeIndex);
+          score(scoreValue);
+          selectOption(option);
+        });
+        optionButtonsElement.appendChild(button);
+
+        const scoreboardTitle = document.createElement("h2");
+        scoreboardTitle.innerText = "leaderboard";
+        const scoreboardDivClass = document.createElement("div");
+        scoreboardDivClass.classList.add("scoreboard");
+        scoreboardDiv.appendChild(scoreboardDivClass);
+        scoreboardDivClass.appendChild(scoreboardTitle);
+        scoreboardDivClass.appendChild(scoreboard);
+
+        updateScores();
+
+        textContainer.style.display = "none";
       } else {
         const scoreValue = option.scoreValue;
         const button = document.createElement("button");
@@ -115,6 +148,7 @@ function showTextNode(textNodeIndex) {
           selectOption(option);
         });
         optionButtonsElement.appendChild(button);
+        textContainer.style.display = "block";
       }
     }
   });
@@ -342,6 +376,11 @@ function deleteScore() {
   return "I'm your host, Vicomputoria, programmed into this terrible code";
 }
 
+function question7() {
+  x = 0;
+  return "hello there! welcome to the Victoria Compatibility Test\nI'm your host, Vicomputoria, programmed into this terrible code";
+}
+
 function choseFunction(input, index) {
   const arrayOfFunctions = [
     deleteScore,
@@ -361,6 +400,7 @@ function choseFunction(input, index) {
     question0,
     question6,
     returnScore,
+    question7,
   ];
   return arrayOfFunctions[index](input);
 }
@@ -380,6 +420,11 @@ const textNodes = [
         text: "Read the disclaimers",
         scoreValue: 2,
         nextText: 2,
+      },
+      {
+        text: "leaderboard",
+        scoreValue: 0,
+        nextText: 17,
       },
     ],
   },
@@ -606,10 +651,23 @@ const textNodes = [
       {
         text: "leaderboard",
         scoreValue: 0,
-        nextText: 1,
+        nextText: 17,
       },
       {
         text: "try again",
+        scoreValue: 0,
+        nextText: 1,
+      },
+    ],
+  },
+  {
+    id: 17,
+    text1: "",
+    text2: "",
+    options: [
+      {
+        scoreboard: true,
+        text: "back to test",
         scoreValue: 0,
         nextText: 1,
       },

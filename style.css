@@ -11,8 +11,44 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
+}
+
+.scoreboard {
+  width: 600px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px 3px rgb(211, 211, 211);
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  font-weight: 100px;
+  margin-bottom: 70px;
+  margin-top: -70px;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+th {
+  border-radius: 15px;
+  background-color: #85c9e8;
+  padding: 8px;
+  color: white;
+  box-shadow: 3px 3px 3px 3px rgb(211, 211, 211);
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 10px 15px;
+}
+
+th:hover {
+  background-color: white;
+  color: #85c9e8;
 }
 
 .container {
@@ -83,7 +119,7 @@ body {
 }
 
 .input:-webkit-autofill,
-.input:-webkit-autofill:hover, 
+.input:-webkit-autofill:hover,
 .input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
