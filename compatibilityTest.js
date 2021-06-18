@@ -3,6 +3,7 @@ var text2 = document.getElementById("text2");
 var input = document.getElementById("input-element");
 var optionButtonsElement = document.getElementById("option-buttons");
 var submit = document.getElementById("submit");
+var scoreboard = document.getElementById("scoreboard");
 var inputText = "";
 var userName = "";
 var sexyName = "";
@@ -11,24 +12,71 @@ var toebees = "";
 var previousButtonText = "";
 var wormLength = 0;
 var x = 0;
-// var database = firebase.database();
 
-function writeUserData(userNumber, userName, score) {
-  database.ref('users/' + userNumber).set({
-    username: userName,
-    score: score,
-  });
+var firebaseConfig = {
+  apiKey: "AIzaSyDWI2uQ6cZILtZxOHHCoef5bpnLMgy-n_c",
+  authDomain: "compatibility-test-2cec2.firebaseapp.com",
+  databaseURL: "https://compatibility-test-2cec2-default-rtdb.firebaseio.com",
+  projectId: "compatibility-test-2cec2",
+  storageBucket: "compatibility-test-2cec2.appspot.com",
+  messagingSenderId: "1053600569593",
+  appId: "1:1053600569593:web:7cecd9eefb904cf2d4aa28",
+  measurementId: "G-GQJNZJPK03",
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+var database = firebase.database();
+
+const dbRefObject = firebase.database().ref().child("users");
+
+dbRefObject.on("value", (snap) => {
+  console.log(snap.val());
+});
+
+function writeUserData(userName, score) {
+  var newUserKey = dbRefObject.push().key;
+
+  database
+    .ref()
+    .child("users/" + newUserKey)
+    .set({
+      username: userName,
+      score: score,
+      userKey: newUserKey,
+    });
+  updateScores();
 }
 
 function startGame() {
+  updateScores();
   showTextNode(1);
+}
+
+function updateScores() {
+  while (scoreboard.firstChild) {
+    scoreboard.removeChild(scoreboard.firstChild);
+  }
+  dbRefObject.on("value", (snap) => {
+    snap.forEach((user) => {
+      const userNameText = document.createElement("th");
+      const scoreText = document.createElement("th");
+      userNameText.innerText = user.val().username;
+      scoreText.innerText = user.val().score;
+
+      scoreboard.appendChild(userNameText);
+      scoreboard.appendChild(scoreText);
+    });
+  });
 }
 
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find((textNode) => textNode.id === textNodeIndex);
   text1.innerText = textNode.text1;
   text2.innerText = textNode.text2;
-  console.log("x = ", x);
+  console.log("score: ", x);
 
   while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild);
@@ -57,7 +105,6 @@ function showTextNode(textNodeIndex) {
         input.appendChild(submitButton);
       } else {
         const scoreValue = option.scoreValue;
-        console.log(scoreValue);
         const button = document.createElement("button");
         button.innerText = option.text;
         button.classList.add("btn");
@@ -109,7 +156,7 @@ function selectOption(option) {
   showTextNode(nextTextNodeId);
 }
 
-function question0(input) {
+function question0() {
   return "";
 }
 
@@ -124,16 +171,9 @@ function question1(input) {
   } else if (userName.charAt(0) == "v") {
     score(-3);
     return (
-      "your name starts with the same letter as mine... that's definitely weird. \nkinda makes us sound like a villian duo\nVictoria + " +
+      "your name starts with the same letter as mine... that's definitely weird. \nkinda makes us sound like a villian duo\nvictoria + " +
       userName +
       ". \nyea not a vibe."
-    );
-  } else if (userName.charAt(-1) == "s") {
-    score(-3);
-    return (
-      "your name has the plural marker on the end of it... are you more than one person?\nIDK its just kinda weird don't you think?\nso is it like " +
-      userName.substring() +
-      " x2?"
     );
   } else if (userName.length <= 3) {
     score(6);
@@ -205,7 +245,7 @@ function question3(input) {
   } else if (favColor == "white") {
     score(-3);
     return "hahahhaahahahahhahhaa ok I guess, just kinda reminds me of this one time I got pooped on by a dove";
-  } else if (favColor.search("and")) {
+  } else if (favColor.search("and") !== -1) {
     score(-5);
     return "well someone's indecisive";
   } else {
@@ -221,7 +261,7 @@ function question4(input) {
   } else if (toebees == "no") {
     return "well you're technically right according to scientists\nso congrats on being smart but not congrats in not bee-lieving in bees\nit's kind of discrimina-toe-ry";
   } else if (toebees == "idk") {
-    return "don't know? Sounds a little unconfident. Be more educated next time";
+    return "don't know? sounds a little unconfident. bee more educated next time";
   } else if (toebees == "why") {
     return "CAUSE I SAID SO";
   } else {
@@ -273,9 +313,11 @@ function question6(input) {
   }
 }
 
-function returnScore(input) {
+function returnScore() {
   var textScore = "";
-  if (x < 1) {
+  if (x == -40) {
+    textScore = "\nyou got the worst score possible. congrats on sucking";
+  } else if (x < 1) {
     textScore = "\nyou completely failed. yea. so um its not gonna work out.";
   } else if (x >= 1 && x < 10) {
     textScore =
@@ -291,11 +333,11 @@ function returnScore(input) {
     x = 0;
     textScore = "\nyou broke something so score is actually 0";
   }
+  writeUserData(userName, x);
   return x + "/50" + textScore;
 }
 
-function deleteScore(input) {
-  console.log("score: ", x);
+function deleteScore() {
   x = 0;
   return "I'm your host, Vicomputoria, programmed into this terrible code";
 }
@@ -336,7 +378,7 @@ const textNodes = [
       },
       {
         text: "Read the disclaimers",
-        scoreValue: 0,
+        scoreValue: 2,
         nextText: 2,
       },
     ],
@@ -421,7 +463,7 @@ const textNodes = [
     options: [
       {
         text: "nope ask away",
-        scoreValue: 5,
+        scoreValue: 3,
         nextText: 10,
       },
       {
