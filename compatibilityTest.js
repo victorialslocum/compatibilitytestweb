@@ -1,3 +1,4 @@
+// global document element variables
 var text1 = document.getElementById("text1");
 var text2 = document.getElementById("text2");
 var input = document.getElementById("input-element");
@@ -6,6 +7,8 @@ var submit = document.getElementById("submit");
 var scoreboard = document.getElementById("scoreboard");
 var scoreboardDiv = document.getElementById("scoreboard-div");
 var textContainer = document.getElementById("textcontainer");
+
+// global variables
 var inputText = "";
 var userName = "";
 var sexyName = "";
@@ -16,6 +19,7 @@ var wormLength = 0;
 var x = 0;
 var userDict = {};
 
+// firebase info
 var firebaseConfig = {
   apiKey: "AIzaSyDWI2uQ6cZILtZxOHHCoef5bpnLMgy-n_c",
   authDomain: "compatibility-test-2cec2.firebaseapp.com",
@@ -27,21 +31,19 @@ var firebaseConfig = {
   measurementId: "G-GQJNZJPK03",
 };
 
-// Initialize Firebase
+// initialize firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 var database = firebase.database();
-
 const dbRefObject = firebase.database().ref().child("users");
 
-dbRefObject.on("value", (snap) => {
-  console.log(snap.val());
-});
-
+// add data to firebase database and update scoreboard
 function writeUserData(userName, score) {
+  // create user key to prevent rewrites (i think lol)
   var newUserKey = dbRefObject.push().key;
 
+  // create new child with user key and add username, score, and userKey
   database
     .ref()
     .child("users/" + newUserKey)
@@ -50,6 +52,7 @@ function writeUserData(userName, score) {
       score: score,
       userKey: newUserKey,
     });
+  // update scores
   updateScores();
 }
 
@@ -58,51 +61,56 @@ function startGame() {
   showTextNode(1);
 }
 
-// write to dictinary and then sort that and pull values from there
+// update scoreboard
 function updateScores() {
+  // remove existing CSS in scoreboard
   while (scoreboard.firstChild) {
     scoreboard.removeChild(scoreboard.firstChild);
   }
 
+  // for each userID within users, add username and score to dictionary
   dbRefObject.on("value", (snap) => {
     snap.forEach((user) => {
       userDict[user.val().username] = user.val().score;
     });
   });
 
+  // still a lil confused on this, particularly the function part
   var items = Object.keys(userDict).map(function (key) {
     return [key, userDict[key]];
   });
 
-  // Sort the array based on the second element
+  // also confused, but understand the output
   items.sort(function (first, second) {
     return second[1] - first[1];
   });
 
-  // Create a new array with only the first 5 items
-  console.log("userscores", items);
-  console.log("userdict: ", userDict);
-  items.slice(0,5).forEach((value, key) => {
-    console.log("value: ", value, " key: ", key)
+  // take top 5 items of sorted list and create elements for them
+  items.slice(0, 5).forEach((value) => {
+    // create wrapper for username + score pair
     const textWrapper = document.createElement("tr");
-    
     scoreboard.appendChild(textWrapper);
 
     value.forEach((value) => {
-      const userNameText = document.createElement("th");
-      userNameText.innerText = value;
+      // create item for either username or score
+      const scoreText = document.createElement("th");
+      scoreText.innerText = value;
 
-      textWrapper.appendChild(userNameText);
+      textWrapper.appendChild(scoreText);
     });
   });
 }
 
+// main function that changes html
 function showTextNode(textNodeIndex) {
+  console.log("score: ", x);
+
+  // find textNode and change text
   const textNode = textNodes.find((textNode) => textNode.id === textNodeIndex);
   text1.innerText = textNode.text1;
   text2.innerText = textNode.text2;
-  console.log("score: ", x);
 
+  // remove all elements
   while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild);
   }
@@ -115,10 +123,15 @@ function showTextNode(textNodeIndex) {
     scoreboardDiv.removeChild(scoreboardDiv.firstChild);
   }
 
+  // for each array under options
   textNode.options.forEach((option) => {
     var nextTextNodeIndex = option.nextText;
+    // idk what this does
     if (showOption(option)) {
       if (option.inputform) {
+        // if option.inputform is marked as true, create an input element
+        // I later realized this may have been able to be done with .style.display = "none"
+        // but also then how would it work with event listeners? ohh maybe on click?
         const inputForm = document.createElement("input");
         inputForm.setAttribute("type", "text");
         inputForm.classList.add("input");
@@ -132,8 +145,13 @@ function showTextNode(textNodeIndex) {
         });
         input.appendChild(inputForm);
         input.appendChild(submitButton);
+
+        // keep the text container 
         textContainer.style.display = "block";
+
+        
       } else if (option.scoreboard) {
+        // if option.scoreboard = true, keep the button stuff, and add scoreboard stuff
         const scoreValue = option.scoreValue;
         const button = document.createElement("button");
         button.innerText = option.text;
@@ -146,6 +164,7 @@ function showTextNode(textNodeIndex) {
         });
         optionButtonsElement.appendChild(button);
 
+        // i'm 90% sure this is not a good way to do this
         const scoreboardTitle = document.createElement("h2");
         scoreboardTitle.innerText = "leaderboard";
         const scoreboardDivClass = document.createElement("div");
@@ -156,8 +175,10 @@ function showTextNode(textNodeIndex) {
 
         updateScores();
 
+        // bye bye text container
         textContainer.style.display = "none";
       } else {
+        // basically adds the amount of buttons that is specified by the amount of items in options
         const scoreValue = option.scoreValue;
         const button = document.createElement("button");
         button.innerText = option.text;
@@ -169,20 +190,27 @@ function showTextNode(textNodeIndex) {
           selectOption(option);
         });
         optionButtonsElement.appendChild(button);
+
+        // keep text container
         textContainer.style.display = "block";
       }
     }
   });
 }
 
+// is it better to have this as function or to just say it? idk
+// updates variable to be used in future
 function updatePreviousButtonText(buttonText) {
   previousButtonText = buttonText;
 }
 
+// is there a better way to write x = ...?
 function score(change) {
   x = x + change;
 }
 
+// finds the next text node and updates the text before its passed into the show text node function
+// choses function based on an array of functions
 function updateNextTextNode(nextTextNodeIndex) {
   const nextTextNode = textNodes.find(
     (nextTextNode) => nextTextNode.id === nextTextNodeIndex
@@ -191,6 +219,7 @@ function updateNextTextNode(nextTextNodeIndex) {
   nextTextNode.text1 = choseFunction(inputText, nextTextNodeIndex);
 }
 
+// same thing as above but uses the previous selected button text as the input to the function
 function updateNextTextNodeButton(nextTextNodeIndex) {
   const nextTextNode = textNodes.find(
     (nextTextNode) => nextTextNode.id === nextTextNodeIndex
@@ -199,10 +228,12 @@ function updateNextTextNodeButton(nextTextNodeIndex) {
   nextTextNode.text2 = choseFunction(inputText, nextTextNodeIndex);
 }
 
+// idk what this does
 function showOption(option) {
   return option.requiredState == null || option.requiredState(state);
 }
 
+// runs the function to show the text node with the next text node number
 function selectOption(option) {
   const nextTextNodeId = option.nextText;
   if (nextTextNodeId <= 0) {
@@ -211,13 +242,18 @@ function selectOption(option) {
   showTextNode(nextTextNodeId);
 }
 
+// blank question
 function question0() {
   return "";
 }
 
+// content questions
 function question1(input) {
   userName = input.toLowerCase();
-  if (userName == "victoria") {
+  if (userName == "") {
+    score(-10);
+    return "why'd you input nothing :(";
+  } else if (userName == "victoria") {
     score(-5);
     return "we have the same name :( copy cat";
   } else if (userName.charAt(0) == "j") {

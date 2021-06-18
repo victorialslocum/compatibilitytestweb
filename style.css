@@ -28,7 +28,6 @@ body {
   font-weight: 100px;
   display: flex;
   flex-direction: column;
-  
 }
 
 th {
@@ -47,6 +46,12 @@ table {
 th:hover {
   background-color: white;
   color: #85c9e8;
+}
+
+th::selection {
+  background-color: white;
+  color: #85c9e8;
+  padding: 10px;
 }
 
 .container {
