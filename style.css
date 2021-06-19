@@ -189,10 +189,12 @@ select:-webkit-autofill:focus {
   .input {
     width: 100%;
     -webkit-appearance: none;
+    -moz-appearance: none;
   }
 
   .submit-button {
     width: 100%;
-    
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
 }
