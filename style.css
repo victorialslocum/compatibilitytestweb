@@ -181,16 +181,18 @@ select:-webkit-autofill:focus {
   .container {
     width: 80vw;
   }
-  
+
   .textcontainer {
     width: 100%;
   }
 
   .input {
     width: 100%;
+    -webkit-appearance: none;
   }
 
   .submit-button {
     width: 100%;
+    
   }
 }
