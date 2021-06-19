@@ -115,6 +115,7 @@ th::selection {
   display: inline-block;
   font-size: 20px;
 }
+
 .input::selection {
   background-color: #85c9e8;
   padding: 30px;
@@ -157,8 +158,39 @@ select:-webkit-autofill:focus {
   margin-top: 20px;
   box-shadow: 2px 2px 2px 2px rgb(211, 211, 211);
 }
+
 .submit-button:hover {
   background-color: white;
   color: #85c9e8;
   cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .scoreboard {
+    width: 80vw;
+  }
+
+  .btn-grid {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .container {
+    width: 80vw;
+  }
+  
+  .textcontainer {
+    width: 100%;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
 }
