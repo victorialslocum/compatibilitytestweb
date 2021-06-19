@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="style.css" rel="stylesheet" />
+    <script defer src="compatibilityTest.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="scoreboard-div">
+      <div class="scoreboard">
+        <h2>Scoreboard</h2>
+        <table id="scoreboard">
+          <tr>
+            <th>Name</th>
+            <th>Score</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="container">
+      <div id="textcontainer">
+        <div class="textcontainer">
+          <div class="text" id="text1">Text1</div>
+          <div class="text" id="text2">Text2</div>
+        </div>
+      </div>
+      <div class="inputdiv">
+        <form method="GET" id="input-element" class="inputform">
+          <input type="text" id="input-text" class="input" />
+          <input
+            type="submit"
+            id="submit"
+            class="submit-button"
+            value="Submit"
+          />
+        </form>
+      </div>
+      <div id="option-buttons" class="btn-grid">
+        <button class="btn">Option 1</button>
+        <button class="btn">Option 2</button>
+        <button class="btn">Option 3</button>
+        <button class="btn">Option 4</button>
+      </div>
+    </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "compatibilitytestweb",
+  "version": "1.0.0",
+  "description": "victoria's compatibility test",
+  "main": "compatibilityTest.js",
+  "scripts": {
+    "test": "compatibilitytest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victoriaslocum752/compatibilitytestweb.git"
+  },
+  "keywords": [
+    "compatibility",
+    "test",
+    "victoria"
+  ],
+  "author": "victoria slocum",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victoriaslocum752/compatibilitytestweb/issues"
+  },
+  "homepage": "https://github.com/victoriaslocum752/compatibilitytestweb#readme",
+  "dependencies": {
+    "firebase": "^8.6.7"
+  }
+}
