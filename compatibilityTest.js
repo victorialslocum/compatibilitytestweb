@@ -197,7 +197,7 @@ const textNodes = [
   },
   {
     id: 12,
-    line1: "if you were a worm, how long would you be (in inches)?",
+    line1: "if you were a worm, how long would you be (in centimeters)?",
     line2: "",
     options: [
       {
@@ -414,7 +414,7 @@ function showTextNode(textNodeIndex) {
       button.innerText = option.text;
       button.classList.add("btn");
       button.addEventListener("click", () => {
-        previousButtonText = option.text
+        previousButtonText = option.text;
         updateNextTextNodeButton(nextTextNodeIndex);
         addToScore(scoreValue);
         selectOption(option);
@@ -434,7 +434,7 @@ function showTextNode(textNodeIndex) {
       button.innerText = option.text;
       button.classList.add("btn");
       button.addEventListener("click", () => {
-        previousButtonText = option.text
+        previousButtonText = option.text;
         updateNextTextNodeButton(nextTextNodeIndex);
         addToScore(scoreValue);
         selectOption(option);
@@ -602,24 +602,24 @@ function question4(input) {
 
 function question5(input) {
   wormLength = parseFloat(input);
-  if (wormLength < 1) {
+  if (wormLength < 2) {
     addToScore(-5);
     return (
       "I definitely feel like this says a lot about you...\nand tbh its not a vibe\nsmall worm = lame worm\nso in other words, " +
       userName +
       " = lame"
     );
-  } else if (1 <= wormLength && wormLength <= 6) {
+  } else if (2 <= wormLength && wormLength <= 15) {
     addToScore(3);
     return (
       "OKOK I see you with your perfect " +
       wormLength +
       "in worm body!!\nits a vibe and i'm here for it"
     );
-  } else if (6 < wormLength && wormLength < 12) {
+  } else if (15 < wormLength && wormLength < 30) {
     addToScore(-3);
     return "well... I mean...\nyou're not long enough to be terrifying but not short enough to be nice\nso idk. just kinda. there ig";
-  } else if (12 <= wormLength) {
+  } else if (30 <= wormLength) {
     addToScore(5);
     return "OH ok well I see you want to either be great at your job...\nor a terror to humanity\nI can get behind both. good choice.";
   } else {

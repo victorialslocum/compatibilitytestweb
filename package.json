@@ -4,7 +4,7 @@
   "description": "victoria's compatibility test",
   "main": "compatibilityTest.js",
   "scripts": {
-    "test": "compatibilitytest"
+    "test": "node compatibilityTest.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/victoriaslocum752/compatibilitytestweb#readme",
   "dependencies": {
-    "firebase": "^8.6.7"
+    "firebase": "^8.10.1"
   }
 }
