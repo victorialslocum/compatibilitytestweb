@@ -4,7 +4,7 @@
   "description": "victoria's compatibility test",
   "main": "compatibilityTest.js",
   "scripts": {
-    "test": "node compatibilityTest.js"
+    "test": "compatibilitytest"
   },
   "repository": {
     "type": "git",
