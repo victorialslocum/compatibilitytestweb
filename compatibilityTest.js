@@ -322,6 +322,12 @@ function writeUserData(userName, score) {
       username: userName,
       score: score,
       userKey: newUserKey,
+      ansers: {
+        sexyName: sexyName,
+        favColor: favColor,
+        toebees: toebees,
+        wormLength: wormLength,
+      },
     });
   // update scores
   updateScores();
