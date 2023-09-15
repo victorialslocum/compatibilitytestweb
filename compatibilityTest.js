@@ -622,7 +622,7 @@ function question5(input) {
     return (
       "OKOK I see you with your perfect " +
       wormLength +
-      "in worm body!!\nits a vibe and i'm here for it"
+      "cm worm body!!\nits a vibe and i'm here for it"
     );
   } else if (15 < wormLength && wormLength < 30) {
     addToScore(-3);
