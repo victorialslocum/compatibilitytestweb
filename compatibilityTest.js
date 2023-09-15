@@ -18,6 +18,7 @@ var previousButtonText = "";
 var wormLength = 0;
 var score = 0;
 var userDict = {};
+const date = new Date();
 
 //content
 const textNodes = [
@@ -322,6 +323,7 @@ function writeUserData(userName, score) {
       username: userName,
       score: score,
       userKey: newUserKey,
+      date: date,
       ansers: {
         sexyName: sexyName,
         favColor: favColor,
